@@ -24,3 +24,14 @@ class coordenada:
     
     def coordenada_para_cadeia(self):
         print ('\'' + '(' + str(self.linha) + ' : ' + str(self.coluna) + ')' + '\'')
+
+#TAD Tabuleiro Picross
+
+def cria_tabuleiro(t):
+    if isinstance(t,tuple):
+        return {'especificacao':t,'tab':{}}
+
+    
+
+def tabuleiro_especificacoes(t):
+    return t['especificacao']
