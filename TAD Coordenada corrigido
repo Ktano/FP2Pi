@@ -1,7 +1,7 @@
 def cria_coordenada(linha, coluna):
     if not isinstance (linha, int) or not isinstance (coluna, int):
         raise ValueError ('cria_coordenadas: argumentos invalidos')
-    elif linha<0 or coluna<0:
+    elif linha<1 or coluna<1:
         raise ValueError ('cria_coordenadas: argumentos invalidos')
     else:
         return (linha, coluna)
@@ -14,7 +14,7 @@ def coordenada_coluna(coordenada):
 
 def e_coordenada(arg):
     if isinstance(arg, (tuple)):
-        if len(arg)==2 and arg[0]>=0 and arg[1]>=0:
+        if len(arg)==2 and arg[0]>=1 and arg[1]>=1:
             return True
         else:
             return False
