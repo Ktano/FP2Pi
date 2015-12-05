@@ -91,7 +91,24 @@ def tabuleiro_celula(t,c):
     
 def tabuleiro_preenche_celula(t,c,v):
     if e_tabuleiro[t] and e_coordenada[c] and v in (0,1,2):
-        t[tab][c]=v
-        return t
+        if v in (1,2):
+            t[tab][c]=v
+        elif c in t[tab]:
+            del t[c]
     else:
         raise ValueError('tabuleiro_preenche_celula: argumentos invalidos')
+    return t
+
+def e_tabuleiro(arg):
+    def tab_valido(tab):        
+        for i in tab:
+            if not e_coordenada(i) and tab[i] not in (1,2):
+                return False
+        return true
+    
+    if isinstance(arg,dict):
+        if "especificacao" in arg and "tab" in arg:
+            if e_especificacao(arg["especificacao"]) and isinstance(arg["tab"],dict):
+                if tab_valido(arg["tab"]):
+                    return True
+    return False
