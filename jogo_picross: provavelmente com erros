@@ -1,0 +1,20 @@
+def jogo_picross(ficheiro):
+    fich_tuplo=le_tabuleiro(ficheiro)
+    tabuleiro_para_jogar=cria_tabuleiro(fich_tuplo)
+    escreve_tabuleiro=escreve_tabuleiro(tabuleiro_para_jogar)
+    
+    while tabuleiro_completo(tabuleiro_para_jogar)==False:
+        
+        pede_jogada=pede_jogada(tabuleiro_para_jogar)
+        
+        if pede_jogada != False:
+            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, pede_jogada[0], pede_jogada[1])
+            
+            return escreve_tabuleiro
+        
+        
+        else:
+            return 'Jogada Invalida'
+    
+    
+    return tabuleiro_completo(tabuleiro_para_jogar)
