@@ -112,3 +112,25 @@ def e_tabuleiro(arg):
                 if tab_valido(arg["tab"]):
                     return True
     return False
+
+def escreve_tabuleiro(t):
+    def ext_valor(v):
+        """ Retorna a representacao externa do valor de uma celula"""
+        ext=("  "," . "," X ")
+        return ext[v]
+    def max_esp(esp):
+        """
+        funcao auxiliar que calcula a dimensao maxima dos tuplos das
+        especificacoes das linhas ou colunas
+        """
+        max=len(t[0])
+        for t in esp:
+            if max < len(t):
+                max=t
+        return max
+    
+    str = ""
+    if e_tabuleiro(t):
+        
+    else:
+        raise ValueError ("escreve_tabuleiro: argumento invalido")
