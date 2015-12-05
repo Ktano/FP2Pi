@@ -114,23 +114,76 @@ def e_tabuleiro(arg):
     return False
 
 def escreve_tabuleiro(t):
+    
     def ext_valor(v):
         """ Retorna a representacao externa do valor de uma celula"""
         ext=("  "," . "," X ")
         return ext[v]
+    
     def max_esp(esp):
         """
         funcao auxiliar que calcula a dimensao maxima dos tuplos das
         especificacoes das linhas ou colunas
         """
-        max=len(t[0])
+        max=len(esp[0])
         for t in esp:
             if max < len(t):
-                max=t
-        return max
-    
-    str = ""
-    if e_tabuleiro(t):
+                max=len(t)
+        return max    
+
+    def linha_esp(esp_l,linha):
+        """
+        funcao que retorna a representacao externa de uma linha da especificacao
+        a primeira linha e a 0
+        """
+        res = ""
+        for i in esp_l:
+            if len(i)>linha:
+                res+=" "*2 + str(i[linha]) +" "*2
+            else:
+                res+=+" "*5
+        res +="  \n"
+        return res
         
+    def linha_tab(t,esp_c,linha):
+        """
+        retorna a representacao externa de uma linha do tabuleiro incluindo a 
+        especificacao da linha do lado direito
+        """
+        res = ""
+        coluna = 1
+        dimensao = tabuleiro_dimensoes(t)
+        maxcoluna = t[1]
+        c = cria_coordenada(linha,coluna)
+        while coluna <= maxcoluna:
+            res += "[ " + ext_valor(tabuleiro_celula[c]) + " ]"
+            coluna+=1
+            c = cria_coordenada(linha,coluna)
+            
+        max_c_esp = max_esp(esp_c)
+        n=1
+        while n<=max_c_esp:
+            if n<len(esp_c[linha]):
+                res+= " " + str(esp_c[linha][n])
+            else:
+                res+=" "*2
+            n+=1
+        res+= "|\n"
+        return res
+    
+    res = ""
+    if e_tabuleiro(t):
+        esp = tabuleiro_especificacoes(t)
+        max_l_esp = max_esp(esp[1])
+        while max_l_esp>0:
+            res+=linha_esp(esp[1],max_l_esp-1)
+            max_l_esp-=1
+        dimensao = tabuleiro_dimensoes(t)
+        maxlinha = t[0]  
+        n=0
+        while n <= maxlinha:
+            res+= linha_tab(t,esp[1],n)
+        print (res)   
     else:
         raise ValueError ("escreve_tabuleiro: argumento invalido")
+
