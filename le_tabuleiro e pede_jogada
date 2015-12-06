@@ -1,10 +1,10 @@
 #########################0######################0#######################
 
 def le_tabuleiro(ficheiro):
-    ficheiro=open(ficheiro,'r')
-    ficheiro=eval(ficheiro.read())
-    ficheiro.close()
-    return ficheiro
+    fich=open(ficheiro,'r')
+    tuplo_res=eval(fich.read())
+    fich.close()
+    return tuplo_res
 
 
 #########################0######################0#######################
