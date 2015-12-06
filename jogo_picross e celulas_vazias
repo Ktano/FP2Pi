@@ -1,0 +1,40 @@
+def celulas_vazias(tabuleiro):
+    
+    def celulas_vazias_aux(tabuleiro, possibilidades_lin, possibilidades_col):
+        tuplo_controlo=()
+       
+        for posslin in possibilidads_lin:
+            for posscol in possibilidades_col:
+                celula=tabuleiro_celula(tabuleiro, cria_coordenada (posslin, posscol) )
+                for val in celula:
+                    tuplo_controlo+=(val, )
+        return tuplo_controlo
+    
+    
+    if 0 in celulas_vazias_aux:
+        return True
+    else:
+        return False
+        
+        
+def jogo_picross(ficheiro):           #????????????????????????????????????
+    fich_tuplo=le_tabuleiro(ficheiro)
+    tabuleiro_para_jogar=cria_tabuleiro(fich_tuplo)
+    escreve_tabuleiro=escreve_tabuleiro(tabuleiro_para_jogar)
+        
+    
+    while celulas_vazias(tabuleiro_para_jogar) ==True:    #enquanto houver celulas vazias...
+        
+        pede_jog=pede_jogada(tabuleiro_para_jogar)
+        
+        if pede_jog != False:
+            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, pede_jog[0], pede_jog[1])
+            
+            return escreve_tabuleiro
+        
+        
+        else:
+            return 'Jogada Invalida'
+        
+        
+    return tabuleiro_completo(tabuleiro_para_jogar) #??????????????????
