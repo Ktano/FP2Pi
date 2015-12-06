@@ -55,7 +55,10 @@ def e_especificacao(t):
 
 def cria_tabuleiro(t):
     """
-    Cria um novo tabuleiro
+    Cria um novo tabuleiro utilizando um dicionario;
+    Associado a chave "especificacao" fica o tuplo da especificacao do tabuleiro
+    associado a "tab" fica outro dicionario neste caso vazio onde se guardam os
+    valores das celuldas(chave usa tad Coordenada) que sejam diferentes de 0
     """
     if e_especificacao(t):
         return {'especificacao':t,'tab':{}}
@@ -90,21 +93,24 @@ def tabuleiro_celula(t,c):
         raise ValueError('tabuleiro_celula: argumentos invalidos')
     
 def tabuleiro_preenche_celula(t,c,v):
-    if e_tabuleiro[t] and e_coordenada[c] and v in (0,1,2):
+    if e_tabuleiro(t) and e_coordenada(c) and v in (0,1,2):
         if v in (1,2):
-            t[tab][c]=v
-        elif c in t[tab]:
+            t["tab"][c]=v
+        elif c in t["tab"]:
             del t[c]
     else:
         raise ValueError('tabuleiro_preenche_celula: argumentos invalidos')
     return t
+
+def tabuleiros_iguais(t1,t2):
+    return t1==t2
 
 def e_tabuleiro(arg):
     def tab_valido(tab):        
         for i in tab:
             if not e_coordenada(i) and tab[i] not in (1,2):
                 return False
-        return true
+        return True
     
     if isinstance(arg,dict):
         if "especificacao" in arg and "tab" in arg:
@@ -117,7 +123,7 @@ def escreve_tabuleiro(t):
     
     def ext_valor(v):
         """ Retorna a representacao externa do valor de uma celula"""
-        ext=("  "," . "," X ")
+        ext=(" ? "," . "," X ")
         return ext[v]
     
     def max_esp(esp):
@@ -141,7 +147,7 @@ def escreve_tabuleiro(t):
             if len(i)>linha:
                 res+=" "*2 + str(i[linha]) +" "*2
             else:
-                res+=+" "*5
+                res+=" "*5
         res +="  \n"
         return res
         
@@ -153,16 +159,16 @@ def escreve_tabuleiro(t):
         res = ""
         coluna = 1
         dimensao = tabuleiro_dimensoes(t)
-        maxcoluna = t[1]
-        c = cria_coordenada(linha,coluna)
+        maxcoluna = dimensao[1]
+        c = cria_coordenada(linha+1,coluna)
         while coluna <= maxcoluna:
-            res += "[ " + ext_valor(tabuleiro_celula[c]) + " ]"
+            res += "[" + ext_valor(tabuleiro_celula(t,c)) + "]"
             coluna+=1
-            c = cria_coordenada(linha,coluna)
+            c = cria_coordenada(linha+1,coluna)
             
         max_c_esp = max_esp(esp_c)
-        n=1
-        while n<=max_c_esp:
+        n=0
+        while n<max_c_esp:
             if n<len(esp_c[linha]):
                 res+= " " + str(esp_c[linha][n])
             else:
@@ -179,11 +185,30 @@ def escreve_tabuleiro(t):
             res+=linha_esp(esp[1],max_l_esp-1)
             max_l_esp-=1
         dimensao = tabuleiro_dimensoes(t)
-        maxlinha = t[0]  
+        maxlinha = dimensao[0]  
         n=0
-        while n <= maxlinha:
+        while n < maxlinha:
             res+= linha_tab(t,esp[1],n)
+            n+=1
         print (res)   
     else:
         raise ValueError ("escreve_tabuleiro: argumento invalido")
 
+def linha_completa(esp,linha):
+    n=0
+    t=()
+    for i in linha:
+        if i == 2:
+            n+=1
+        elif i==1:
+            if n>0:
+                t=t+(n,)
+            n=0
+        else:
+            return False
+    if n>0:
+        t=t+(n,)
+    return esp==t
+
+def tabuleiro_completo(t):
+    
