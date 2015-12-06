@@ -211,4 +211,20 @@ def linha_completa(esp,linha):
     return esp==t
 
 def tabuleiro_completo(t):
-    
+    dimensoes = tabuleiro_dimensoes(t)
+    n=0
+    while n<= dimensoes[0]:
+        if not linha_completa(lista_tabuleiro(dimensoes[1],lambda x:tabuleiro_celula(t,cria_coordenada(n,x)))):
+            return False
+    n=0    
+    while n<= dimensoes[1]:
+        if not linha_completa(lista_tabuleiro(dimensoes[0],lambda x:tabuleiro_celula(t,cria_coordenada(x,n)))):
+            return False
+    return True
+
+def lista_tabuleiro(n,celula):
+    i=1
+    res=[]
+    while i <= n:
+        res+=[celula(i)]
+    return res
