@@ -9,26 +9,33 @@ def le_tabuleiro(ficheiro):
 
 #########################0######################0#######################
     
-
 def pede_jogada(tabuleiro):
-    dimensao_linha=(tabuleiro_dimensoes(tabuleiro))[0]
-    dimensao_coluna=(tabuleiro_dimensoes(tabuleiro))[1]    
+    global dimensao_lin
+    global dimensao_col
+    global possibilidades_lin
+    global possibilidades_col    
+    
+    dimensao_lin=(tabuleiro_dimensoes(tabuleiro))[0]
+    dimensao_col=(tabuleiro_dimensoes(tabuleiro))[1]
+    possibilidades_lin=range(1,dimensao_linha+1)
+    possibilidades_col=range(1,dimensao_coluna+1)
+    
+    
     print('Introduza uma jogada')
+    
     pede_coordenada=eval(input('-' +  'coordenada entre ' + '(1 : 1)' + ' e ' +  '(' + str(dimensao_linha) + ' : ' + str(dimensao_coluna) + ')' + ' >> '))
     pede_valor=eval(input('-' +  'valor' + ' >> '))
     
     def jogada_valida(coord,val):
         coord_linha=eval(coord[1])
         coord_coluna=eval(coord[5])
-        if coord_linha not in range(1,dimensao_linha+1) or coord_coluna not in range(1,dimensao_coluna+1) or val not in [1,2]:
+        if coord_linha not in possibilidades_lin or coord_coluna not in possibilidades_col or val not in [1,2]:
             return False
         else:
             return cria_jogada((coord_linha, coord_coluna), val)
     
     return jogada_valida(pede_coordenada, pede_valor)
-    
-    
-    
+
 
 #############################################################################
 
