@@ -3,12 +3,12 @@ def jogo_picross(ficheiro):
     tabuleiro_para_jogar=cria_tabuleiro(fich_tuplo)
     escreve_tabuleiro=escreve_tabuleiro(tabuleiro_para_jogar)
     
-    while tabuleiro_completo(tabuleiro_para_jogar)==False:
+    while celulas_vazias(tabuleiro_para_jogar)==True:
         
-        pede_jogada=pede_jogada(tabuleiro_para_jogar)
+        pede_jog=pede_jogada(tabuleiro_para_jogar)
         
         if pede_jogada != False:
-            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, pede_jogada[0], pede_jogada[1])
+            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, pede_jog[0], pede_jog[1])
             
             return escreve_tabuleiro
         
@@ -18,3 +18,20 @@ def jogo_picross(ficheiro):
     
     
     return tabuleiro_completo(tabuleiro_para_jogar)
+###################################################################################################################################
+def celulas_vazias(tabuleiro):
+    
+    def celulas_vazias_aux(tabuleiro, possibilidades_lin, possibilidades_col):
+        tuplo_controlo=()
+        for posslin in possibilidades_lin:
+            for posscol in possibilidades_col:
+                celula=tabuleiro_celula(tabuleiro, cria_coordenada(posslin, posscol))
+                for val in celula:
+                    tuplo_controlo+=(val, )
+        return tuplo_controlo
+    
+    
+    if 0 in celulas_vazias_aux:
+        return True
+    else:
+        return False
