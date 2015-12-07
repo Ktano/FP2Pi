@@ -374,7 +374,7 @@ def pede_jogada(tabuleiro):
     dimensao_col=(tabuleiro_dimensoes(tabuleiro))[1]
     possibilidades_lin=range(1,dimensao_lin+1)
     possibilidades_col=range(1,dimensao_col+1)
-    print('Introduza uma jogada')
+    print('Introduza a jogada')
     pede_coordenada=input('-' +  'coordenada entre ' + '(1 : 1)' + ' e ' +  '(' + str(dimensao_lin) + ' : ' + str(dimensao_col) + ')' + ' >> ')
     pede_valor=eval(input('-' +  'valor' + ' >> '))
     
@@ -400,14 +400,18 @@ def jogo_picross(ficheiro):           #????????????????????????????????????
     escreve_tabuleiro(tabuleiro_para_jogar)
     while celulas_vazias(tabuleiro_para_jogar) == True:    #enquanto houver celulas vazias...
         jogada=pede_jogada(tabuleiro_para_jogar)
-        if pede_jog != False:
-            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, pede_jog[0], pede_jog[1])
-            return escreve_tabuleiro
+        if jogada != False:
+            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, jogada[0], jogada[1])
+            escreve_tabuleiro(tabuleiro_para_jogar)
         else:
-            return 'Jogada Invalida'
+            print('Jogada Invalida')
         
-    return tabuleiro_completo(tabuleiro_para_jogar) #??????????????????
-
+    if tabuleiro_completo(tabuleiro_para_jogar):
+        print ("Parabens, encontrou a solucao!")
+        return True
+    else:
+        print ("JOGO: O tabuleiro nao esta correto!")
+        return False
 
 def celulas_vazias(tabuleiro):
     
@@ -416,7 +420,7 @@ def celulas_vazias(tabuleiro):
         for posslin in range(1,possibilidades_lin):
             for posscol in range(1,possibilidades_col):
                 val_celula=tabuleiro_celula(tabuleiro, cria_coordenada (posslin, posscol) )
-                if val_celula = 0:
+                if val_celula == 0:
                     tuplo_controlo+=cria_coordenada (posslin, posscol)
         return tuplo_controlo
     
