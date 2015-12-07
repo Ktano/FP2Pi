@@ -1,3 +1,4 @@
+#Grupo:8 Joao Loureiro n 182607 , Pedro Caetano n 56564
 #############################################################################
 
 #TAD coordenada
@@ -359,7 +360,7 @@ def le_tabuleiro(fich_cc):
      e devolvende o conteudo do ficheiro 
     """
     fich=open(fich_cc,'r')
-    tuplo_res=eval(fich_cc.read())   #a leitura do ficheiro devolve uma string, sendo necessario devolver o tuplo
+    tuplo_res=eval(fich.read())   #a leitura do ficheiro devolve uma string, sendo necessario devolver o tuplo
     fich.close()                    
     return tuplo_res
 
