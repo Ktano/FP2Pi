@@ -369,17 +369,13 @@ def le_tabuleiro(fich_cc):
 
 #Funcao pede_jogada
     
-def pede_jogada(tabuleiro):
-    global dimensao_lin
-    global dimensao_col
-    global possibilidades_lin
-    global possibilidades_col    
+def pede_jogada(tabuleiro):  
     dimensao_lin=(tabuleiro_dimensoes(tabuleiro))[0]
     dimensao_col=(tabuleiro_dimensoes(tabuleiro))[1]
     possibilidades_lin=range(1,dimensao_lin+1)
     possibilidades_col=range(1,dimensao_col+1)
     print('Introduza uma jogada')
-    pede_coordenada=eval(input('-' +  'coordenada entre ' + '(1 : 1)' + ' e ' +  '(' + str(dimensao_lin) + ' : ' + str(dimensao_col) + ')' + ' >> '))
+    pede_coordenada=input('-' +  'coordenada entre ' + '(1 : 1)' + ' e ' +  '(' + str(dimensao_lin) + ' : ' + str(dimensao_col) + ')' + ' >> ')
     pede_valor=eval(input('-' +  'valor' + ' >> '))
     
     def jogada_valida(coord,val):
@@ -400,9 +396,10 @@ def pede_jogada(tabuleiro):
 def jogo_picross(ficheiro):           #????????????????????????????????????
     fich_tuplo=le_tabuleiro(ficheiro)
     tabuleiro_para_jogar=cria_tabuleiro(fich_tuplo)
-    escreve_tabuleiro=escreve_tabuleiro(tabuleiro_para_jogar)
-    while celulas_vazias(tabuleiro_para_jogar) ==True:    #enquanto houver celulas vazias...
-        pede_jog=pede_jogada(tabuleiro_para_jogar)
+    print ("JOGO PICROSS")
+    escreve_tabuleiro(tabuleiro_para_jogar)
+    while celulas_vazias(tabuleiro_para_jogar) == True:    #enquanto houver celulas vazias...
+        jogada=pede_jogada(tabuleiro_para_jogar)
         if pede_jog != False:
             tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, pede_jog[0], pede_jog[1])
             return escreve_tabuleiro
@@ -416,14 +413,15 @@ def celulas_vazias(tabuleiro):
     
     def celulas_vazias_aux(tabuleiro, possibilidades_lin, possibilidades_col):
         tuplo_controlo=()
-        for posslin in possibilidads_lin:
-            for posscol in possibilidades_col:
-                celula=tabuleiro_celula(tabuleiro, cria_coordenada (posslin, posscol) )
-                for val in celula:
-                    tuplo_controlo+=(val, )
+        for posslin in range(1,possibilidades_lin):
+            for posscol in range(1,possibilidades_col):
+                val_celula=tabuleiro_celula(tabuleiro, cria_coordenada (posslin, posscol) )
+                if val_celula = 0:
+                    tuplo_controlo+=cria_coordenada (posslin, posscol)
         return tuplo_controlo
     
-    if 0 in celulas_vazias_aux:
+    dim = tabuleiro_dimensoes(tabuleiro)
+    if celulas_vazias_aux(tabuleiro,dim[0],dim[1]) != () :
         return True
     else:
         return False
