@@ -140,12 +140,12 @@ def escreve_tabuleiro(t):
     def linha_esp(esp_l,linha):
         """
         funcao que retorna a representacao externa de uma linha da especificacao
-        a primeira linha e a 0
+        das colunas a primeira linha e a 0
         """
         res = ""
         for i in esp_l:
             if len(i)>linha:
-                res+=" "*2 + str(i[linha]) +" "*2
+                res+=" "*2 + str(i[len(i)-(linha+1)]) +" "*2
             else:
                 res+=" "*5
         res +="  \n"
@@ -188,7 +188,7 @@ def escreve_tabuleiro(t):
         maxlinha = dimensao[0]  
         n=0
         while n < maxlinha:
-            res+= linha_tab(t,esp[1],n)
+            res+= linha_tab(t,esp[0],n)
             n+=1
         print (res)   
     else:
@@ -212,14 +212,17 @@ def linha_completa(esp,linha):
 
 def tabuleiro_completo(t):
     dimensoes = tabuleiro_dimensoes(t)
-    n=0
+    n=1
+    esp=tabuleiro_especificacoes(t)
     while n<= dimensoes[0]:
-        if not linha_completa(lista_tabuleiro(dimensoes[1],lambda x:tabuleiro_celula(t,cria_coordenada(n,x)))):
+        if not linha_completa(esp[0][n-1],lista_tabuleiro(dimensoes[1],lambda x:tabuleiro_celula(t,cria_coordenada(n,x)))):
             return False
-    n=0    
+        n+=1
+    n=1    
     while n<= dimensoes[1]:
-        if not linha_completa(lista_tabuleiro(dimensoes[0],lambda x:tabuleiro_celula(t,cria_coordenada(x,n)))):
+        if not linha_completa(esp[1][n-1],lista_tabuleiro(dimensoes[0],lambda x:tabuleiro_celula(t,cria_coordenada(x,n)))):
             return False
+        n+=1
     return True
 
 def lista_tabuleiro(n,celula):
@@ -227,4 +230,7 @@ def lista_tabuleiro(n,celula):
     res=[]
     while i <= n:
         res+=[celula(i)]
+        i+=1
     return res
+
+
