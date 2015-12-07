@@ -131,12 +131,14 @@ def tabuleiro_celula(t,c):
     Devolve o valor da celula correspondente a coordenada c do tabuleiro t
     """
     if e_tabuleiro(t) and e_coordenada(c):
-        if c in t['tab']:
-            return t['tab'][c]
-        else:
-            return 0
-    else:
-        raise ValueError('tabuleiro_celula: argumentos invalidos')
+        dim = tabuleiro_dimensoes(t)
+        if coordenada_linha(c) <= dim[0] and coordenada_coluna(c)<=dim[1]:
+            if c in t['tab']:
+                return t['tab'][c]
+            else:
+                return 0
+    
+    raise ValueError('tabuleiro_celula: argumentos invalidos')
     
 def tabuleiro_preenche_celula(t,c,v):
     if e_tabuleiro(t) and e_coordenada(c) and v in (0,1,2):
@@ -169,7 +171,7 @@ def escreve_tabuleiro(t):
     
     def ext_valor(v):
         """ Retorna a representacao externa do valor de uma celula"""
-        ext=(" ? "," . "," X ")
+        ext=(" ? "," . "," x ")
         return ext[v]
     
     def max_esp(esp):
@@ -297,7 +299,7 @@ def cria_jogada (coordenada, valor):
     ao tipo coordenada no indice 0 e o valor no indice 1
     """
     if not e_coordenada(coordenada) or valor not in [1,2]:
-        raise ValueError ('cria jogada: argumentos invalidos')
+        raise ValueError ('cria_jogada: argumentos invalidos')
     else:
         return (coordenada, valor)
     
@@ -375,8 +377,8 @@ def pede_jogada(tabuleiro):
     possibilidades_lin=range(1,dimensao_lin+1)
     possibilidades_col=range(1,dimensao_col+1)
     print('Introduza a jogada')
-    pede_coordenada=input('-' +  'coordenada entre ' + '(1 : 1)' + ' e ' +  '(' + str(dimensao_lin) + ' : ' + str(dimensao_col) + ')' + ' >> ')
-    pede_valor=eval(input('-' +  'valor' + ' >> '))
+    pede_coordenada=input('- coordenada entre (1 : 1) e (' + str(dimensao_lin) + ' : ' + str(dimensao_col) + ')' + ' >> ')
+    pede_valor=eval(input('- valor' + ' >> '))
     
     def jogada_valida(coord,val):
         coord_linha=eval(coord[1])
@@ -404,10 +406,10 @@ def jogo_picross(ficheiro):           #????????????????????????????????????
             tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, jogada[0], jogada[1])
             escreve_tabuleiro(tabuleiro_para_jogar)
         else:
-            print('Jogada Invalida')
+            print('Jogada invalida.')
         
     if tabuleiro_completo(tabuleiro_para_jogar):
-        print ("Parabens, encontrou a solucao!")
+        print ("JOGO: Parabens, encontrou a solucao!")
         return True
     else:
         print ("JOGO: O tabuleiro nao esta correto!")
@@ -417,8 +419,8 @@ def celulas_vazias(tabuleiro):
     
     def celulas_vazias_aux(tabuleiro, possibilidades_lin, possibilidades_col):
         tuplo_controlo=()
-        for posslin in range(1,possibilidades_lin):
-            for posscol in range(1,possibilidades_col):
+        for posslin in range(1,possibilidades_lin+1):
+            for posscol in range(1,possibilidades_col+1):
                 val_celula=tabuleiro_celula(tabuleiro, cria_coordenada (posslin, posscol) )
                 if val_celula == 0:
                     tuplo_controlo+=cria_coordenada (posslin, posscol)
