@@ -99,6 +99,9 @@ def e_especificacao(t):
         return True
     
 def coordenada_valida(dim,c):
+    """
+    funcao que verifica se uma coordenada pertence a um tabuleiro
+    """
     return coordenada_linha(c) <= dim[0] and coordenada_coluna(c)<=dim[1]
 
 def cria_tabuleiro(t):
@@ -143,6 +146,11 @@ def tabuleiro_celula(t,c):
     raise ValueError('tabuleiro_celula: argumentos invalidos')
     
 def tabuleiro_preenche_celula(t,c,v):
+    """
+    Funcao que preenche uma celula com o valor 1 ou 2. Ao dicionario associado a
+    chave 'tab' do tabuleiro é adicionada uma entrada com a chave c e o valor v
+    se este for 1 ou 2 se este for 0 o valor é removido do tabuleiro
+    """
     if e_tabuleiro(t) and e_coordenada(c) and v in (0,1,2):
         dim = tabuleiro_dimensoes(t)
         if coordenada_valida(dim,c):
@@ -157,9 +165,17 @@ def tabuleiro_preenche_celula(t,c,v):
     return t
 
 def tabuleiros_iguais(t1,t2):
+    """
+    testa se dois tabuleiros sao iguais
+    """
     return t1==t2
 
 def e_tabuleiro(arg):
+    """
+    verifica se o arg e um tabuleiro valido. Verifica se existem as chaves "especificacao"
+    e "tab" e se cada um dos valores destas sao contrucoes validas de uma 
+    especeificacao e de um tabuleiro
+    """
     def tab_valido(tab):        
         for i in tab:
             if not e_coordenada(i) and tab[i] not in (1,2):
@@ -174,7 +190,10 @@ def e_tabuleiro(arg):
     return False
 
 def escreve_tabuleiro(t):
-    
+    """
+    escreve o tabuleiro no ecra incluindo a especificacao para as linhas e colunas
+    e os valores de cada celula em que 0="?" 1 = "." e 2 = "x"
+    """
     def ext_valor(v):
         """ Retorna a representacao externa do valor de uma celula"""
         ext=(" ? "," . "," x ")
@@ -220,6 +239,7 @@ def escreve_tabuleiro(t):
             coluna+=1
             c = cria_coordenada(linha+1,coluna)
             
+        # escreve as linhas iniciais correspondentes à especificacao das colunas
         max_c_esp = max_esp(esp_c)
         n=0
         while n<max_c_esp:
@@ -231,6 +251,7 @@ def escreve_tabuleiro(t):
         res+= "|\n"
         return res
     
+    # escreve o tabuleiro incluind a especificacao das colunas do lado direito
     res = ""
     if e_tabuleiro(t):
         esp = tabuleiro_especificacoes(t)
@@ -249,6 +270,9 @@ def escreve_tabuleiro(t):
         raise ValueError ("escreve_tabuleiro: argumento invalido")
 
 def linha_completa(esp,linha):
+    """
+    verifica se determinada linha/coluna esta completa de acordo a esp dada
+    """
     n=0
     t=()
     for i in linha:
@@ -265,6 +289,18 @@ def linha_completa(esp,linha):
     return esp==t
 
 def tabuleiro_completo(t):
+    """
+    verifica se o tabuleiro esta completo ou seja todas as colunas e todas as linhas
+    estao completas
+    """
+    def lista_tabuleiro(n,celula):
+        i=1
+        res=[]
+        while i <= n:
+            res+=[celula(i)]
+            i+=1
+        return res
+    
     dimensoes = tabuleiro_dimensoes(t)
     n=1
     esp=tabuleiro_especificacoes(t)
@@ -279,13 +315,6 @@ def tabuleiro_completo(t):
         n+=1
     return True
 
-def lista_tabuleiro(n,celula):
-    i=1
-    res=[]
-    while i <= n:
-        res+=[celula(i)]
-        i+=1
-    return res
 
 
 #############################################################################
