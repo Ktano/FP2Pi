@@ -98,6 +98,8 @@ def e_especificacao(t):
     else:
         return True
     
+def coordenada_valida(dim,c):
+    return coordenada_linha(c) <= dim[0] and coordenada_coluna(c)<=dim[1]
 
 def cria_tabuleiro(t):
     """
@@ -132,7 +134,7 @@ def tabuleiro_celula(t,c):
     """
     if e_tabuleiro(t) and e_coordenada(c):
         dim = tabuleiro_dimensoes(t)
-        if coordenada_linha(c) <= dim[0] and coordenada_coluna(c)<=dim[1]:
+        if coordenada_valida(dim,c):
             if c in t['tab']:
                 return t['tab'][c]
             else:
@@ -142,10 +144,14 @@ def tabuleiro_celula(t,c):
     
 def tabuleiro_preenche_celula(t,c,v):
     if e_tabuleiro(t) and e_coordenada(c) and v in (0,1,2):
-        if v in (1,2):
-            t["tab"][c]=v
-        elif c in t["tab"]:
-            del t[c]
+        dim = tabuleiro_dimensoes(t)
+        if coordenada_valida(dim,c):
+            if v in (1,2):
+                t["tab"][c]=v
+            elif c in t["tab"]:
+                del t[c]
+        else: 
+            raise ValueError('tabuleiro_preenche_celula: argumentos invalidos')
     else:
         raise ValueError('tabuleiro_preenche_celula: argumentos invalidos')
     return t
