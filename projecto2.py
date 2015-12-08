@@ -148,8 +148,8 @@ def tabuleiro_celula(t,c):
 def tabuleiro_preenche_celula(t,c,v):
     """
     Funcao que preenche uma celula com o valor 1 ou 2. Ao dicionario associado a
-    chave 'tab' do tabuleiro é adicionada uma entrada com a chave c e o valor v
-    se este for 1 ou 2 se este for 0 o valor é removido do tabuleiro
+    chave 'tab' do tabuleiro e adicionada uma entrada com a chave c e o valor v
+    se este for 1 ou 2 se este for 0 o valor e removido do tabuleiro
     """
     if e_tabuleiro(t) and e_coordenada(c) and v in (0,1,2):
         dim = tabuleiro_dimensoes(t)
@@ -239,7 +239,7 @@ def escreve_tabuleiro(t):
             coluna+=1
             c = cria_coordenada(linha+1,coluna)
             
-        # escreve as linhas iniciais correspondentes à especificacao das colunas
+        # escreve as linhas iniciais correspondentes a especificacao das colunas
         max_c_esp = max_esp(esp_c)
         n=0
         while n<max_c_esp:
@@ -407,21 +407,19 @@ def le_tabuleiro(fich_cc):
 #Funcao pede_jogada
     
 def pede_jogada(tabuleiro):  
-    dimensao_lin=(tabuleiro_dimensoes(tabuleiro))[0]
-    dimensao_col=(tabuleiro_dimensoes(tabuleiro))[1]
-    possibilidades_lin=range(1,dimensao_lin+1)
-    possibilidades_col=range(1,dimensao_col+1)
+    dim=tabuleiro_dimensoes(tabuleiro)
     print('Introduza a jogada')
-    pede_coordenada=input('- coordenada entre (1 : 1) e (' + str(dimensao_lin) + ' : ' + str(dimensao_col) + ')' + ' >> ')
+    pede_coordenada=input('- coordenada entre (1 : 1) e (' + str(dim[0]) + ' : ' + str(dim[1]) + ')' + ' >> ')
     pede_valor=eval(input('- valor' + ' >> '))
     
     def jogada_valida(coord,val):
         coord_linha=eval(coord[1])
         coord_coluna=eval(coord[5])
-        if coord_linha not in possibilidades_lin or coord_coluna not in possibilidades_col or val not in [1,2]:
-            return False
-        else:
+        c=cria_coordenada(coord_linha,coord_coluna)
+        if coordenada_valida(dim,c):
             return cria_jogada((coord_linha, coord_coluna), val)
+        else:
+            return False
     
     return jogada_valida(pede_coordenada, pede_valor)
 
