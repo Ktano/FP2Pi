@@ -106,6 +106,8 @@ def coordenada_valida(dim,c):
 
 def cria_tabuleiro(t):
     """
+    CONSTRUTOR
+    
     Cria um novo tabuleiro utilizando um dicionario;
     Associado a chave "especificacao" fica o tuplo da especificacao do tabuleiro
     associado a "tab" fica outro dicionario neste caso vazio onde se guardam os
@@ -120,12 +122,16 @@ def cria_tabuleiro(t):
 
 def tabuleiro_especificacoes(t):
     """"
+    SELECTOR
+    
     Devolve a especificacao do tabuleiro
     """
     return t['especificacao']
 
 def tabuleiro_dimensoes(t):
     """
+    SELECTOR
+    
     Devolve um tuplo com as dimensoes do tabuleiro (linhas,colunas)
     """
     esp=tabuleiro_especificacoes(t)
@@ -133,6 +139,8 @@ def tabuleiro_dimensoes(t):
 
 def tabuleiro_celula(t,c):
     """
+    SELECTOR
+    
     Devolve o valor da celula correspondente a coordenada c do tabuleiro t
     """
     if e_tabuleiro(t) and e_coordenada(c):
@@ -147,6 +155,8 @@ def tabuleiro_celula(t,c):
     
 def tabuleiro_preenche_celula(t,c,v):
     """
+    MODIFICADOR
+    
     Funcao que preenche uma celula com o valor 1 ou 2. Ao dicionario associado a
     chave 'tab' do tabuleiro e adicionada uma entrada com a chave c e o valor v
     se este for 1 ou 2 se este for 0 o valor e removido do tabuleiro
@@ -166,12 +176,16 @@ def tabuleiro_preenche_celula(t,c,v):
 
 def tabuleiros_iguais(t1,t2):
     """
+    TESTE
+    
     testa se dois tabuleiros sao iguais
     """
     return t1==t2
 
 def e_tabuleiro(arg):
     """
+    RECONHECEDOR
+    
     verifica se o arg e um tabuleiro valido. Verifica se existem as chaves "especificacao"
     e "tab" e se cada um dos valores destas sao contrucoes validas de uma 
     especeificacao e de um tabuleiro
@@ -191,6 +205,8 @@ def e_tabuleiro(arg):
 
 def escreve_tabuleiro(t):
     """
+    TRANSFORMADOR DE SAIDA
+    
     escreve o tabuleiro no ecra incluindo a especificacao para as linhas e colunas
     e os valores de cada celula em que 0="?" 1 = "." e 2 = "x"
     """
@@ -396,8 +412,8 @@ def jogada_para_cadeia(jogada):
 def le_tabuleiro(fich_cc):
     """
     Recebe como argumento uma string correspondente ao nome de um ficheiro
-    (tuplo de tuplos que contem as especificacaoes do jogo)
-     e devolvende o conteudo do ficheiro 
+    (tuplo de tuplos que contem as especificacaoes do jogo).
+    Devolve o conteudo do ficheiro 
     """
     fich=open(fich_cc,'r')
     tuplo_res=eval(fich.read())   #a leitura do ficheiro devolve uma string, sendo necessario devolver o tuplo
@@ -435,7 +451,10 @@ def pede_jogada(tabuleiro):
 
 def jogo_picross(ficheiro):
     """
-    funcao que permite jogar um jogo de picross
+    Funcao que permite jogar um jogo completo de picross
+    
+    Vai pedindo sucessivamente jogadas (verificando a validade da jogada)
+    Quando ja nao houver celulas vazias, verifica se o tabuleiro esta completo
     """
     fich_tuplo=le_tabuleiro(ficheiro)
     tabuleiro_para_jogar=cria_tabuleiro(fich_tuplo)
@@ -446,12 +465,12 @@ def jogo_picross(ficheiro):
     while celulas_vazias(tabuleiro_para_jogar) != ():  #enquanto houver celulas vazias...
         jogada=pede_jogada(tabuleiro_para_jogar)
         if e_jogada(jogada):
-            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, jogada_coordenada(jogada),jogada_valor(jogada))
+            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, jogada_coordenada(jogada),jogada_valor(jogada))  #actualiza o tabuleiro
             escreve_tabuleiro(tabuleiro_para_jogar)
         else:
             print('Jogada invalida.')
         
-    if tabuleiro_completo(tabuleiro_para_jogar):
+    if tabuleiro_completo(tabuleiro_para_jogar):                      
         print ("JOGO: Parabens, encontrou a solucao!")
         return True
     else:
