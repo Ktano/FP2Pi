@@ -426,11 +426,28 @@ def le_tabuleiro(fich_cc):
 #Funcao pede_jogada
     
 def pede_jogada(tabuleiro):  
-    
+    """
+    Recebe um tabuleiro e devolve a jogada que o  utilizador inseriu
+    (coordenada e celula em branco/caixa de acordo com as especificacoes)
+    """    
+    def loc_sep(cadeia):
+        """
+        localiza a posicao do separador ":" na cadeia de caracteres
+        """        
+        for n in range(len(cadeia)):
+            if cadeia[n] ==":":
+                return n        
+            
     def cadeia_para_coordenada(cadeia):
-        l=cadeia[1:len(cadeia)//2-1]
-        c=cadeia[len(cadeia)//2+2:len(cadeia)-1]
+        """
+        Funcao auxiliar que converte a cadeia de caracteres fornecida de um string
+        para uma coordenada
+        """
+        l=cadeia[1:loc_sep(cadeia)-1]
+        c=cadeia[loc_sep(cadeia)+2:len(cadeia)-1]
         return cria_coordenada(int(l),int(c))
+    
+    
     
     dim=tabuleiro_dimensoes(tabuleiro)
     print('Introduza a jogada')
