@@ -239,7 +239,7 @@ def escreve_tabuleiro(t):
             coluna+=1
             c = cria_coordenada(linha+1,coluna)
             
-        # escreve as linhas iniciais correspondentes a especificacao das colunas
+        # escreve a esp das linhas 
         max_c_esp = max_esp(esp_c)
         n=0
         while n<max_c_esp:
@@ -251,14 +251,17 @@ def escreve_tabuleiro(t):
         res+= "|\n"
         return res
     
-    # escreve o tabuleiro incluind a especificacao das colunas do lado direito
+
     res = ""
     if e_tabuleiro(t):
+        #escreve as linhas iniciais que correspondem a especificacao das colunas
         esp = tabuleiro_especificacoes(t)
         max_l_esp = max_esp(esp[1])
         while max_l_esp>0:
             res+=linha_esp(esp[1],max_l_esp-1)
             max_l_esp-=1
+         
+        # escreve o tabuleiro incluind a especificacao das colunas do lado direito   
         dimensao = tabuleiro_dimensoes(t)
         maxlinha = dimensao[0]  
         n=0
@@ -407,21 +410,23 @@ def le_tabuleiro(fich_cc):
 #Funcao pede_jogada
     
 def pede_jogada(tabuleiro):  
+    
+    def cadeia_para_coordenada(cadeia):
+        l=cadeia[1:len(cadeia)//2-1]
+        c=cadeia[len(cadeia)//2+2:len(cadeia)-1]
+        return cria_coordenada(int(l),int(c))
+    
     dim=tabuleiro_dimensoes(tabuleiro)
     print('Introduza a jogada')
-    pede_coordenada=input('- coordenada entre (1 : 1) e (' + str(dim[0]) + ' : ' + str(dim[1]) + ')' + ' >> ')
-    pede_valor=eval(input('- valor' + ' >> '))
+    coord_max = cria_coordenada(dim[0],dim[1])
+    coord=input('- coordenada entre (1 : 1) e ' + coordenada_para_cadeia(coord_max) +' >> ')
+    valor=eval(input('- valor >> '))
     
-    def jogada_valida(coord,val):
-        coord_linha=eval(coord[1])
-        coord_coluna=eval(coord[5])
-        c=cria_coordenada(coord_linha,coord_coluna)
-        if coordenada_valida(dim,c):
-            return cria_jogada((coord_linha, coord_coluna), val)
-        else:
-            return False
-    
-    return jogada_valida(pede_coordenada, pede_valor)
+    c=cadeia_para_coordenada(coord)
+    if coordenada_valida(dim,c):
+        return cria_jogada(c, valor)
+    else:
+        return False    
 
 
 #############################################################################
@@ -440,7 +445,7 @@ def jogo_picross(ficheiro):
     
     while celulas_vazias(tabuleiro_para_jogar) != ():  #enquanto houver celulas vazias...
         jogada=pede_jogada(tabuleiro_para_jogar)
-        if jogada:
+        if e_jogada(jogada):
             tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, jogada_coordenada(jogada),jogada_valor(jogada))
             escreve_tabuleiro(tabuleiro_para_jogar)
         else:
@@ -465,5 +470,5 @@ def celulas_vazias(tabuleiro):
         for c in range(1,dim[1]+1):
             val_celula=tabuleiro_celula(tabuleiro, cria_coordenada (l, c) )
             if val_celula == 0:
-                tuplo_controlo+=cria_coordenada (l, c)
+                tuplo_controlo+=(cria_coordenada (l, c),)
     return tuplo_controlo
