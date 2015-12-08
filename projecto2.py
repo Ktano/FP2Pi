@@ -428,15 +428,20 @@ def pede_jogada(tabuleiro):
 
 #Funcao jogo_picross e funcao auxiliar celulas_vazias
 
-def jogo_picross(ficheiro):           #????????????????????????????????????
+def jogo_picross(ficheiro):
+    """
+    funcao que permite jogar um jogo de picross
+    """
     fich_tuplo=le_tabuleiro(ficheiro)
     tabuleiro_para_jogar=cria_tabuleiro(fich_tuplo)
+    
     print ("JOGO PICROSS")
     escreve_tabuleiro(tabuleiro_para_jogar)
-    while celulas_vazias(tabuleiro_para_jogar) == True:    #enquanto houver celulas vazias...
+    
+    while celulas_vazias(tabuleiro_para_jogar) != ():  #enquanto houver celulas vazias...
         jogada=pede_jogada(tabuleiro_para_jogar)
-        if jogada != False:
-            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, jogada[0], jogada[1])
+        if jogada:
+            tabuleiro_para_jogar=tabuleiro_preenche_celula(tabuleiro_para_jogar, jogada_coordenada(jogada),jogada_valor(jogada))
             escreve_tabuleiro(tabuleiro_para_jogar)
         else:
             print('Jogada invalida.')
@@ -448,19 +453,17 @@ def jogo_picross(ficheiro):           #????????????????????????????????????
         print ("JOGO: O tabuleiro nao esta correto!")
         return False
 
+
 def celulas_vazias(tabuleiro):
-    
-    def celulas_vazias_aux(tabuleiro, possibilidades_lin, possibilidades_col):
-        tuplo_controlo=()
-        for posslin in range(1,possibilidades_lin+1):
-            for posscol in range(1,possibilidades_col+1):
-                val_celula=tabuleiro_celula(tabuleiro, cria_coordenada (posslin, posscol) )
-                if val_celula == 0:
-                    tuplo_controlo+=cria_coordenada (posslin, posscol)
-        return tuplo_controlo
-    
+    """
+    Funcao que percorre todas celulas do tabuleiro e verifica se ainda existe alguma
+    celula vazia, retorna o tuplo com as coordenadas das celulas vazias
+    """
     dim = tabuleiro_dimensoes(tabuleiro)
-    if celulas_vazias_aux(tabuleiro,dim[0],dim[1]) != () :
-        return True
-    else:
-        return False
+    tuplo_controlo=()
+    for l in range(1,dim[0]+1):
+        for c in range(1,dim[1]+1):
+            val_celula=tabuleiro_celula(tabuleiro, cria_coordenada (l, c) )
+            if val_celula == 0:
+                tuplo_controlo+=cria_coordenada (l, c)
+    return tuplo_controlo
