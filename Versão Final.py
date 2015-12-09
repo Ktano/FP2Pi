@@ -11,9 +11,7 @@ def cria_coordenada(linha, coluna):
     (correspondentes a uma linha e a uma coluna)
     com as especificacoes apresentadas na funcao
     
-    Sendo o TAD coordenada um tipo imutavel, o mais logico
-    para a representacao interna seria usar um tuplo 
-    (i.e ao inves de uma lista) pois tambem estes sao imutaveis 
+    Para a representacao interna utilizou-se um tuplo (linha, coluna) 
     """
     if not isinstance (linha, int) or not isinstance (coluna, int):
         raise ValueError ('cria_coordenadas: argumentos invalidos')
